@@ -19,6 +19,8 @@
 (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
   (add-hook hook #'display-line-numbers-mode))
 
+(electric-pair-mode t)
+
 (use-package which-key
   :ensure nil ; builtin
   :commands which-key-mode
