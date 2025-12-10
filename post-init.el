@@ -134,7 +134,8 @@
 
   ;; Enable Corfu
   :config
-  (global-corfu-mode))
+  (global-corfu-mode)
+  (corfu-popupinfo-mode))
 
 ;; Cape, or Completion At Point Extensions, extends the capabilities of
 ;; in-buffer completion. It integrates with Corfu or the default completion UI,
@@ -437,8 +438,7 @@
   :ensure t
   :config
   (setq rustic-format-on-save nil)
+  (setq rustic-lsp-client 'eglot)
   :custom
   (rustic-cargo-use-last-stored-arguments t)
   (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer")))
-
-(setq rustic-lsp-client 'eglot)
