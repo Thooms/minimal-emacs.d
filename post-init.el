@@ -19,7 +19,10 @@
 (dolist (hook '(prog-mode-hook text-mode-hook conf-mode-hook))
   (add-hook hook #'display-line-numbers-mode))
 
+;; Auto parenthesis matching
 (electric-pair-mode t)
+
+(add-to-list 'default-frame-alist '(undecorated . t))
 
 (use-package which-key
   :ensure nil ; builtin
@@ -75,7 +78,7 @@
 (tooltip-mode 1)
 
 (mapc #'disable-theme custom-enabled-themes)  ; Disable all active themes
-(load-theme 'modus-vivendi t)  ; Load the built-in theme
+(load-theme 'deeper-blue t)  ; Load the built-in theme
 
 ;; This automates the process of updating installed packages
 (use-package auto-package-update
