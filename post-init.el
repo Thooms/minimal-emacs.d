@@ -78,7 +78,8 @@
 (tooltip-mode 1)
 
 (mapc #'disable-theme custom-enabled-themes)  ; Disable all active themes
-(load-theme 'deeper-blue t)  ; Load the built-in theme
+(load-theme 'wombat t)
+
 
 ;; This automates the process of updating installed packages
 (use-package auto-package-update
