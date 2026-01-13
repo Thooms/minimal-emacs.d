@@ -5,6 +5,12 @@
 ;; Exit and debug on config error.
 (setq debug-on-error t)
 
+;; Get access to the shell PATH
+(use-package exec-path-from-shell
+  :demand t
+  :ensure t
+  :config (exec-path-from-shell-initialize))
+
 ;; Native compilation enhances Emacs performance by converting Elisp code into
 ;; native machine code, resulting in faster execution and improved
 ;; responsiveness.
@@ -327,3 +333,68 @@
   (rustic-cargo-use-last-stored-arguments t)
   (rustic-analyzer-command '("rustup" "run" "stable" "rust-analyzer"))
   (add-hook 'eglot--managed-mode-hook (lambda () (flymake-mode -1))))
+
+;; Markdown
+;; The markdown-mode package provides a major mode for Emacs for syntax
+;; highlighting, editing commands, and preview support for Markdown documents.
+;; It supports core Markdown syntax as well as extensions like GitHub Flavored
+;; Markdown (GFM).
+(use-package markdown-mode
+  :commands (gfm-mode
+             gfm-view-mode
+             markdown-mode
+             markdown-view-mode)
+  :mode (("\\.markdown\\'" . markdown-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("README\\.md\\'" . gfm-mode))
+  :bind
+  (:map markdown-mode-map
+        ("C-c C-e" . markdown-do)))
+
+;; Org mode is a major mode designed for organizing notes, planning, task
+;; management, and authoring documents using plain text with a simple and
+;; expressive markup syntax. It supports hierarchical outlines, TODO lists,
+;; scheduling, deadlines, time tracking, and exporting to multiple formats
+;; including HTML, LaTeX, PDF, and Markdown.
+(use-package org
+  :ensure t
+  :commands (org-mode org-version)
+  :mode
+  ("\\.org\\'" . org-mode)
+  :custom
+  ;; (org-hide-leading-stars t)
+  ;; (org-startup-indented t)
+  ;; (org-adapt-indentation nil)
+  ;; (org-edit-src-content-indentation 0)
+  ;; (org-fontify-done-headline t)
+  ;; (org-fontify-todo-headline t)
+  ;; (org-fontify-whole-heading-line t)
+  ;; (org-fontify-quote-and-verse-blocks t)
+
+  ;; When a TODO is set to a done state, record a timestamp
+  (setq org-log-done 'time)
+  ;; Make the indentation look nicer
+  (add-hook 'org-mode-hook 'org-indent-mode)
+  ;; Remap the change priority keys to use the UP or DOWN key
+  (define-key org-mode-map (kbd "C-c <up>") 'org-priority-up)
+  (define-key org-mode-map (kbd "C-c <down>") 'org-priority-down)
+
+  (org-startup-truncated t))
+
+(define-key global-map "\C-cc" 'org-capture)
+
+(setq org-capture-templates
+      '(
+        ("g" "General To-Do"
+         entry (file+headline "~/dev/org/todos.org" "General Tasks")
+         "* TODO [#B] %?\n:Created: %T\n "
+         :empty-lines 0)
+
+        ("m" "Meeting"
+         entry (file+datetree "~/dev/org/meetings.org")
+         "* %? :meeting:%^g \n:Created: %T\n** Attendees\n*** \n** Notes\n** Action Items\n*** TODO [#A] "
+         :tree-type week
+         :clock-in t
+         :clock-resume t
+         :empty-lines 0)
+        ))

@@ -11,3 +11,10 @@
            gcs-done))
 
 (add-hook 'emacs-startup-hook #'display-startup-time 100)
+
+
+;; No decoration
+(add-to-list 'default-frame-alist '(undecorated . t))
+
+;; Start maximized
+(add-to-list 'initial-frame-alist '(fullscreen . maximized))
