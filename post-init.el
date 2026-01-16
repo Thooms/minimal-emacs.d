@@ -312,6 +312,10 @@
   :config
   (buffer-terminator-mode 1))
 
+;; Git
+(use-package magit
+  :ensure t)
+
 ;; Set up the Language Server Protocol (LSP) servers using Eglot.
 (use-package eglot
   :ensure nil
